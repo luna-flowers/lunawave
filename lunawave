@@ -51,7 +51,7 @@ done
 if [[ "${program}" ]]; then
     case "${program}" in
         vaporwave)
-            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:03:0f
+            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:10:0f
             ;;
         off)
             magichue.py -ip "${LIGHT_IP_ADDR}" -raw 71:24:0f
