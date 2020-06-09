@@ -1,4 +1,4 @@
-# Magic Hue lightbulb CLI utility
+# Magic Hue Wifi Bulb CLI Library and Wrapper
 
 ## Usage
 ### lunawave
@@ -7,7 +7,8 @@ USAGE:
     lunawave [OPTIONS]
 
 OPTIONS:
-    -p, --program    Runs the specified program (builtin or custom function): vaporwave, off
+    -p, --preset    Runs the specified color preset: vaporwave
+    -t, --toggle    Toggles the power status of the bulb
 ```
 
 ### MagicHue
@@ -64,6 +65,7 @@ The following examples can help you futher undertand the structure of the body b
 
 **HEX examples**
 *Note that the final checksum bit is not included here. The script will add it automatically.*
+
 |Action Type|Values|
 |---|---|
 |On|`71:23:0f`|
