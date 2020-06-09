@@ -7,9 +7,9 @@ set -e
 function installed() { command -v "$1" >/dev/null 2>&1; }
 function die() { >&2 echo "Fatal: ${@}"; exit 1; }
 
-dependencies=(magichue.py)
-for depenedency in "${dependencies[@]}"; do
-    installed "${depenedency}" || die "Missing '${depenedency}'"
+deps=(magichue.py)
+for dep in "${deps[@]}"; do
+    installed "${dep}" || die "Missing '${dep}'. Ensure ${dep} is in \$PATH"
 done
 
 ## Constants
