@@ -15,7 +15,31 @@ done
 ## Constants
 LIGHT_IP_ADDR="192.168.1.138"
 
+## Main program
+function set_preset() {
+    case "${preset}" in
+        vaporwave)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:10:0f
+            ;;
+    esac
+}
+
+function toggle_power() {
+    case "${power}" in
+        off) # If off, turn on
+            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 71:23:0f
+            ;;
+        on)  # If on, turn off
+            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 71:24:0f
+            ;;
+        *)
+            die 'ERROR: power status unknown'
+            ;;
+    esac
+}
+
 ## Options
+power="$(magichue.py -ip 192.168.1.138 -status | cut -d\" -f4)"
 preset=
 
 while :; do
@@ -23,6 +47,7 @@ while :; do
         -p|--preset)
             if [[ "${2}" ]]; then
                 preset="${2}"
+                set_preset
                 shift
             else
                 die 'ERROR: "--preset" requires a non-empty option arguement.'
@@ -34,7 +59,10 @@ while :; do
         --preset=)   # Handle the case of an empty --preset=
             die 'ERROR: "--preset" requires a non-empty option arguement.'
             ;;
-        --)         # End of options
+        -t|--toggle)
+            toggle_power
+            ;;
+        --)
             shift
             break
             ;;
@@ -46,15 +74,3 @@ while :; do
     esac
     shift
 done
-
-## Program
-if [[ "${preset}" ]]; then
-    case "${preset}" in
-        vaporwave)
-            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:10:0f
-            ;;
-        off)
-            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 71:24:0f
-            ;;
-    esac
-fi
