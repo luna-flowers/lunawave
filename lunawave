@@ -16,23 +16,23 @@ done
 LIGHT_IP_ADDR="192.168.1.138"
 
 ## Options
-program=
+preset=
 
 while :; do
     case "${1}" in
-        -p|--program)
+        -p|--preset)
             if [[ "${2}" ]]; then
-                program="${2}"
+                preset="${2}"
                 shift
             else
-                die 'ERROR: "--color" requires a non-empty option arguement.'
+                die 'ERROR: "--preset" requires a non-empty option arguement.'
             fi
             ;;
-        --program=?*)
-            program=${1#*=} # Delete everything up to "=" and assign the remainder.
+        --preset=?*)
+            preset=${1#*=} # Delete everything up to "=" and assign the remainder.
             ;;
-        --program=)   # Handle the case of an empty --program=
-            die 'ERROR: "--program" requires a non-empty option arguement.'
+        --preset=)   # Handle the case of an empty --preset=
+            die 'ERROR: "--preset" requires a non-empty option arguement.'
             ;;
         --)         # End of options
             shift
@@ -48,8 +48,8 @@ while :; do
 done
 
 ## Program
-if [[ "${program}" ]]; then
-    case "${program}" in
+if [[ "${preset}" ]]; then
+    case "${preset}" in
         vaporwave)
             magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:10:0f
             ;;
