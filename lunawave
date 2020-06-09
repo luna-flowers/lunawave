@@ -21,6 +21,9 @@ function set_preset() {
         vaporwave)
             magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:10:0f
             ;;
+        *)
+            die "ERROR: preset ${preset} not valid."
+            ;;
     esac
 }
 
