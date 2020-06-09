@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Wrapper for magichue.py with Luna-approved presets
+
+set -e
+
+## Dependency checking
+function installed() { command -v "$1" >/dev/null 2>&1; }
+function die() { >&2 echo "Fatal: ${@}"; exit 1; }
+
+dependencies=(magichue.py)
+for depenedency in "${dependencies[@]}"; do
+    installed "${depenedency}" || die "Missing '${depenedency}'"
+done
+
+## Constants
+LIGHT_IP_ADDR="192.168.1.138"
+
+## Options
+program=
+
+while :; do
+    case "${1}" in
+        -p|--program)
+            if [[ "${2}" ]]; then
+                program="${2}"
+                shift
+            else
+                die 'ERROR: "--color" requires a non-empty option arguement.'
+            fi
+            ;;
+        --program=?*)
+            program=${1#*=} # Delete everything up to "=" and assign the remainder.
+            ;;
+        --program=)   # Handle the case of an empty --program=
+            die 'ERROR: "--program" requires a non-empty option arguement.'
+            ;;
+        --)         # End of options
+            shift
+            break
+            ;;
+        -?*)
+            printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+            ;;
+        *)
+            break
+    esac
+    shift
+done
+
+## Program
+if [[ "${program}" ]]; then
+    case "${program}" in
+        vaporwave)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 61:60:03:0f
+            ;;
+        off)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -raw 71:24:0f
+            ;;
+    esac
+fi
