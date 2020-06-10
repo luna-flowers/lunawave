@@ -27,6 +27,38 @@ function set_preset() {
     esac
 }
 
+function set_color() {
+    case "${color}" in
+        blue)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 0,0,255
+            ;;
+        cyan)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 0,255,255
+            ;;
+        magenta)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,0,255
+            ;;
+        green)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 0,255,0
+            ;;
+        red)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,0,0
+            ;;
+        orange)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,165,0
+            ;;
+        yellow)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,255,0
+            ;;
+        white)
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,255,255
+            ;;
+        *)
+            die "ERROR: color ${color} is not valid."
+            ;;
+    esac
+}
+
 function toggle_power() {
     case "${power}" in
         off) # If off, turn on
@@ -44,6 +76,7 @@ function toggle_power() {
 ## Options
 power="$(magichue.py -ip 192.168.1.138 -status | cut -d\" -f4)"
 preset=
+color=
 
 while :; do
     case "${1}" in
@@ -53,14 +86,29 @@ while :; do
                 set_preset
                 shift
             else
-                die 'ERROR: "--preset" requires a non-empty option arguement.'
+                die 'ERROR: "--preset" requires a non-empty option argument.'
             fi
             ;;
         --preset=?*)
             preset=${1#*=} # Delete everything up to "=" and assign the remainder.
             ;;
         --preset=)   # Handle the case of an empty --preset=
-            die 'ERROR: "--preset" requires a non-empty option arguement.'
+            die 'ERROR: "--preset" requires a non-empty option argument.'
+            ;;
+        -c|--color)
+            if [[ "${2}" ]]; then
+                color="${2}"
+                set_color
+                shift
+            else
+                die 'ERROR. "--color" requires a non-empty option argument.'
+            fi
+            ;;
+        --color=?*)
+            preset=${1#*-}
+            ;;
+        --color=)
+            die 'ERROR. "--color" requires a non-empty option argument.'
             ;;
         -t|--toggle)
             toggle_power

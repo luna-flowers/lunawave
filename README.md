@@ -8,6 +8,8 @@ USAGE:
 
 OPTIONS:
     -p, --preset    Runs the specified color preset: vaporwave
+    -c, --color     Sets the bulb to the specified color: blue, cyan, magenta, green, red,
+                                                          orange, yellow, white
     -t, --toggle    Toggles the power status of the bulb
 ```
 
