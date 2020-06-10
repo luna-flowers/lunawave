@@ -45,7 +45,7 @@ function set_color() {
             magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,0,0
             ;;
         orange)
-            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,165,0
+            magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,127,0
             ;;
         yellow)
             magichue.py -ip "${LIGHT_IP_ADDR}" -rgb 255,255,0
